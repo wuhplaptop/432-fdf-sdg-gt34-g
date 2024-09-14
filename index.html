@@ -150,9 +150,9 @@
         }
         footer .footer-content {
             display: flex;
+            justify-content: space-around;
             flex-wrap: wrap;
             gap: 20px;
-            justify-content: space-around;
         }
         footer .footer-section {
             display: flex;
@@ -187,10 +187,29 @@
             margin-bottom: 5px;
         }
 
+        /* Mobile adjustments */
         @media (max-width: 768px) {
+            footer {
+                padding: 10px 0;
+            }
             footer .footer-content {
-                flex-direction: column;
-                gap: 15px;
+                justify-content: space-around;
+                gap: 10px;
+            }
+            footer .footer-section {
+                max-width: 140px;
+            }
+            footer .footer-section h3 {
+                font-size: 1em;
+            }
+            footer .footer-section p, footer .footer-section a {
+                font-size: 0.85em;
+            }
+            footer .social-links a {
+                font-size: 1.2em;
+            }
+            footer .donation-section img {
+                width: 90px;
             }
         }
     </style>
