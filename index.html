@@ -46,6 +46,7 @@
             max-width: 80px;
             border-radius: 10px;
             margin-right: 15px;
+            cursor: pointer;
         }
         .horse-content {
             flex-grow: 1;
@@ -145,7 +146,9 @@ function loadHorses() {
                 const horseElement = document.createElement('div');
                 horseElement.classList.add('horse');
                 horseElement.innerHTML = `
-                    <img src="${horse.imageUrl}" alt="${horse.name}">
+                    <a href="${horse.imageUrl}" target="_blank">
+                        <img src="${horse.imageUrl}" alt="${horse.name}">
+                    </a>
                     <div class="horse-content">
                         <h3>${horse.name}</h3>
                         <p>${horse.description}</p>
