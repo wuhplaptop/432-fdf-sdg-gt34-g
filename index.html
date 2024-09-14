@@ -73,8 +73,8 @@
 </div>
 
 <script>
-// Google Apps Script API endpoint
-const googleSheetAPI = 'https://script.google.com/macros/s/AKfycbw_zV0CNWlKT2LewUDscoI5PdsMcL4X2Y4CPfRljd2ZNa0Cg-mJ6X0OL6inHxQExbyH/exec';
+// Updated Google Apps Script API endpoint
+const googleSheetAPI = 'https://script.google.com/macros/s/AKfycbw1kSiYV4Gat7usT5dw9bttULEzO7CmzPJo7EhesIjlG5POiyerD0CW-rEIBnF2JSPP/exec';
 
 // Function to load the horse data from Google Sheets
 function loadHorses() {
@@ -86,13 +86,14 @@ function loadHorses() {
                 const horseElement = document.createElement('div');
                 horseElement.classList.add('horse');
                 horseElement.innerHTML = `
-                    <img src="${'./horses/'}${horse.image}" alt="${horse.name}">
+                    <img src="${horse.imageUrl}" alt="${horse.name}">
                     <h3>${horse.name}</h3>
                     <p>${horse.description}</p>
                     <p>Likes: <span id="${horse.name}-likes">${horse.likes}</span></p>
                     <button class="like-button" onclick="likeHorse('${horse.name}')">Like</button>
                     <div>
                         <input class="review-input" id="${horse.name}-review" type="text" placeholder="Write a review">
+                        <input class="review-input" id="${horse.name}-reviewer-name" type="text" placeholder="Your name">
                         <button class="review-button" onclick="submitReview('${horse.name}')">Submit Review</button>
                     </div>
                     <div id="${horse.name}-reviews">
@@ -106,30 +107,42 @@ function loadHorses() {
         .catch(error => console.error('Error loading horse data:', error));
 }
 
-// Function to like a horse
+// Function to like a horse, ensuring the user can only like once
 function likeHorse(horseName) {
+    if (localStorage.getItem(`liked-${horseName}`)) {
+        alert("You have already liked this horse.");
+        return;
+    }
+
     fetch(`${googleSheetAPI}?horseName=${horseName}&action=like`)
         .then(() => {
             const likeCountElement = document.getElementById(`${horseName}-likes`);
             likeCountElement.innerText = parseInt(likeCountElement.innerText) + 1;
+            localStorage.setItem(`liked-${horseName}`, true); // Track the like in localStorage
         })
         .catch(error => console.error('Error liking horse:', error));
 }
 
-// Function to submit a review
+// Function to submit a review with the user's name
 function submitReview(horseName) {
     const reviewInput = document.getElementById(`${horseName}-review`);
+    const reviewerNameInput = document.getElementById(`${horseName}-reviewer-name`);
     const reviewText = reviewInput.value;
-    if (reviewText.trim() === '') {
+    const reviewerName = reviewerNameInput.value;
+
+    if (reviewText.trim() === '' || reviewerName.trim() === '') {
+        alert("Please enter both a review and your name.");
         return;
     }
-    fetch(`${googleSheetAPI}?horseName=${horseName}&review=${encodeURIComponent(reviewText)}&action=review`)
+
+    fetch(`${googleSheetAPI}?horseName=${horseName}&review=${encodeURIComponent(reviewText)}&reviewerName=${encodeURIComponent(reviewerName)}&action=review`)
         .then(() => {
             const reviewsContainer = document.getElementById(`${horseName}-reviews`);
             const newReview = document.createElement('p');
-            newReview.innerText = reviewText;
+            newReview.innerText = `${reviewerName}: ${reviewText}`;
             reviewsContainer.appendChild(newReview);
             reviewInput.value = ''; // Clear input
+            reviewerNameInput.value = ''; // Clear input
         })
         .catch(error => console.error('Error submitting review:', error));
 }
