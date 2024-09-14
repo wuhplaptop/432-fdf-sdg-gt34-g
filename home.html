@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horse Rescue - Home</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #121212;
+            color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #000;
+            color: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        header h1 {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+        }
+        header p {
+            font-size: 1.1em;
+        }
+
+        /* Menu Styles */
+        nav {
+            background-color: #1a1a1a;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            color: #f5f5f5;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 1.2em;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        nav a:hover {
+            background-color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #1a1a1a;
+            padding: 20px 0;
+            color: #ccc;
+            text-align: center;
+        }
+        footer .footer-content {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        footer .footer-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 180px;
+        }
+        footer .footer-section h3 {
+            color: #f5f5f5;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        footer .footer-section p, footer .footer-section a {
+            color: #ccc;
+            font-size: 0.9em;
+            text-decoration: none;
+        }
+        footer .footer-section a:hover {
+            color: #1da1f2;
+        }
+        footer .social-links {
+            display: flex;
+            gap: 10px;
+        }
+        footer .social-links a {
+            font-size: 1.3em;
+            color: #f5f5f5;
+        }
+        footer .donation-section img {
+            width: 120px;
+            margin-bottom: 5px;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            footer {
+                padding: 10px 0;
+            }
+            footer .footer-content {
+                justify-content: space-around;
+                gap: 10px;
+            }
+            footer .footer-section {
+                max-width: 140px;
+            }
+            footer .footer-section h3 {
+                font-size: 1em;
+            }
+            footer .footer-section p, footer .footer-section a {
+                font-size: 0.85em;
+            }
+            footer .social-links a {
+                font-size: 1.2em;
+            }
+            footer .donation-section img {
+                width: 90px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Welcome to Horse Rescue</h1>
+    <p>Dedicated to the rescue and rehabilitation of horses.</p>
+</header>
+
+<!-- Navigation Menu -->
+<nav>
+    <a href="home.html">Home</a>
+    <a href="index.html">View Horses</a>
+</nav>
+
+<div class="container">
+    <h2>Our Mission</h2>
+    <p>
+        At Horse Rescue, we strive to give neglected, abandoned, and mistreated horses a second chance. We provide medical care,
+        food, and a safe environment for these beautiful animals to recover. We also work to find loving homes for our horses.
+    </p>
+    <h2>How You Can Help</h2>
+    <p>
+        You can help by adopting, volunteering, or donating to support our cause. Every contribution goes directly to the care of the horses.
+        Visit our 'View Horses' section to meet some of the horses currently up for adoption, or contact us for more ways to get involved.
+    </p>
+</div>
+
+<!-- Compact Footer Section -->
+<footer>
+    <div class="footer-content">
+        <!-- Donation Section -->
+        <div class="footer-section donation-section">
+            <h3>Support Us</h3>
+            <img src="https://github.com/wuhplaptop/432-fdf-sdg-gt34-g/blob/main/horses/dono.png?raw=true" alt="Donation QR Code">
+            <p><a href="https://www.zeffy.com/donation-form/cf77c00a-6d88-4f4c-a77e-2eb9f3f4e9c2" target="_blank">Donate via Zeffy</a></p>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="footer-section">
+            <h3>Contact Us</h3>
+            <p>Email: contact@horserescue.com</p>
+            <p>Phone: +1 123 456 7890</p>
+        </div>
+
+        <!-- Social Media Links -->
+        <div class="footer-section">
+            <h3>Follow Us</h3>
+            <div class="social-links">
+                <a href="https://facebook.com" target="_blank">🌐</a>
+                <a href="https://x.com" target="_blank">❌</a>
+                <a href="https://instagram.com" target="_blank">📸</a>
+            </div>
+        </div>
+
+        <!-- Location Section -->
+        <div class="footer-section">
+            <h3>Our Location</h3>
+            <p>1234 Horse Rescue Lane, Animal City, CA 90001</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
