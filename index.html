@@ -42,6 +42,23 @@
         .horse p {
             color: #555;
         }
+        .like-button, .review-button {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px;
+            background-color: #343a40;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .like-button:hover, .review-button:hover {
+            background-color: #555;
+        }
+        .review-input {
+            width: 80%;
+            padding: 5px;
+        }
     </style>
 </head>
 <body>
@@ -56,13 +73,12 @@
 </div>
 
 <script>
-// Define the location of the images and config file
-const imageFolder = './horses/';
-const configFilePath = './config.json';
+// Google Apps Script API endpoint
+const googleSheetAPI = 'https://script.google.com/macros/s/AKfycbw_zV0CNWlKT2LewUDscoI5PdsMcL4X2Y4CPfRljd2ZNa0Cg-mJ6X0OL6inHxQExbyH/exec';
 
-// Function to load the horse data from the config file
+// Function to load the horse data from Google Sheets
 function loadHorses() {
-    fetch(configFilePath)
+    fetch(googleSheetAPI)
         .then(response => response.json())
         .then(horses => {
             const container = document.getElementById('horsesContainer');
@@ -70,14 +86,52 @@ function loadHorses() {
                 const horseElement = document.createElement('div');
                 horseElement.classList.add('horse');
                 horseElement.innerHTML = `
-                    <img src="${imageFolder}${horse.image}" alt="${horse.name}">
+                    <img src="${'./horses/'}${horse.image}" alt="${horse.name}">
                     <h3>${horse.name}</h3>
                     <p>${horse.description}</p>
+                    <p>Likes: <span id="${horse.name}-likes">${horse.likes}</span></p>
+                    <button class="like-button" onclick="likeHorse('${horse.name}')">Like</button>
+                    <div>
+                        <input class="review-input" id="${horse.name}-review" type="text" placeholder="Write a review">
+                        <button class="review-button" onclick="submitReview('${horse.name}')">Submit Review</button>
+                    </div>
+                    <div id="${horse.name}-reviews">
+                        <h4>Reviews:</h4>
+                        ${horse.reviews.map(review => `<p>${review}</p>`).join('')}
+                    </div>
                 `;
                 container.appendChild(horseElement);
             });
         })
         .catch(error => console.error('Error loading horse data:', error));
+}
+
+// Function to like a horse
+function likeHorse(horseName) {
+    fetch(`${googleSheetAPI}?horseName=${horseName}&action=like`)
+        .then(() => {
+            const likeCountElement = document.getElementById(`${horseName}-likes`);
+            likeCountElement.innerText = parseInt(likeCountElement.innerText) + 1;
+        })
+        .catch(error => console.error('Error liking horse:', error));
+}
+
+// Function to submit a review
+function submitReview(horseName) {
+    const reviewInput = document.getElementById(`${horseName}-review`);
+    const reviewText = reviewInput.value;
+    if (reviewText.trim() === '') {
+        return;
+    }
+    fetch(`${googleSheetAPI}?horseName=${horseName}&review=${encodeURIComponent(reviewText)}&action=review`)
+        .then(() => {
+            const reviewsContainer = document.getElementById(`${horseName}-reviews`);
+            const newReview = document.createElement('p');
+            newReview.innerText = reviewText;
+            reviewsContainer.appendChild(newReview);
+            reviewInput.value = ''; // Clear input
+        })
+        .catch(error => console.error('Error submitting review:', error));
 }
 
 // Call the function to load horses when the page loads
