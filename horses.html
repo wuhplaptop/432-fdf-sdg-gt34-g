@@ -29,6 +29,58 @@
         header p {
             font-size: 1.1em;
         }
+
+        /* Navigation Styles */
+        nav {
+            background-color: #1a1a1a;
+            padding: 10px 0;
+            text-align: center;
+            position: relative;
+        }
+        nav a {
+            color: #f5f5f5;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 1.2em;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        nav a:hover {
+            background-color: #333;
+        }
+
+        /* Hamburger menu for mobile */
+        .menu-toggle {
+            display: none;
+            font-size: 2em;
+            cursor: pointer;
+            color: #f5f5f5;
+        }
+        .nav-links {
+            display: flex;
+            justify-content: center;
+        }
+        .nav-links a {
+            padding: 10px 20px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background-color: #1a1a1a;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .menu-toggle {
+                display: block;
+                position: absolute;
+                top: 15px;
+                right: 15px;
+            }
+        }
+
         .container {
             max-width: 800px;
             margin: auto;
@@ -251,6 +303,17 @@
 </head>
 <body>
 
+<!-- Navigation Menu -->
+<nav>
+    <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="horses.html">View Horses</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact" style="color: #1da1f2;">Contact Us</a>
+    </div>
+</nav>
+
 <header>
     <h1>Horse Rescue</h1>
     <p>Meet our beautiful horses!</p>
@@ -284,9 +347,9 @@
 
         <!-- Contact Section -->
         <div class="footer-section">
-            <h3>Contact Us</h3>
+            <h3 id="contact">Contact Us</h3>
             <p>Email: contact@horserescue.com</p>
-            <p>Phone: +1 123 456 7890</p>
+            <p>Phone: +1 989 620 5955</p>
         </div>
 
         <!-- Social Media Links -->
@@ -308,6 +371,12 @@
 </footer>
 
 <script>
+// Function to toggle the navigation menu on mobile
+function toggleMenu() {
+    const navLinks = document.querySelector('.nav-links');
+    navLinks.classList.toggle('active');
+}
+
 // Updated Google Apps Script API endpoint to use your new Deployment URL
 const googleSheetAPI = 'https://script.google.com/macros/s/AKfycbzk4OGdvDd7OkWxeUvGcBGnu30_sB-Ek4s6qDRpHt44NfReLExPZjBwbKHrULljFyS2/exec';
 
