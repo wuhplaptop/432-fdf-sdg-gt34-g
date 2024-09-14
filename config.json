@@ -1,12 +1,16 @@
-[
-    {
-        "name": "Bella",
-        "description": "Bella is a friendly and playful mare looking for a loving home.",
-        "image": "bella.png"
-    },
-    {
-        "name": "Storm",
-        "description": "Storm is a powerful and majestic horse who loves to run.",
-        "image": "storm.png"
-    }
-]
+{
+    "faqs": [
+        {
+            "question": "How do I adopt a horse?",
+            "answer": "You can adopt a horse by contacting us through our website or by calling our rescue center."
+        },
+        {
+            "question": "What is the cost of adoption?",
+            "answer": "Adoption fees vary depending on the horse, but typically range between $500 and $1,500."
+        },
+        {
+            "question": "How can I volunteer?",
+            "answer": "You can volunteer by filling out our volunteer form on the website and attending an orientation session."
+        }
+    ]
+}
