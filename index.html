@@ -308,6 +308,142 @@
 </footer>
 
 <script>
+// Updated Google Apps Script API endpoint to use your new Deployment URL
+const googleSheetAPI = 'https://script.google.com/macros/s/AKfycbzk4OGdvDd7OkWxeUvGcBGnu30_sB-Ek4s6qDRpHt44NfReLExPZjBwbKHrULljFyS2/exec';
+
+// Function to load the horse data from Google Sheets
+function loadHorses() {
+    fetch(googleSheetAPI)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then(horses => {
+            renderHorses(horses);
+            document.getElementById('searchInput').addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                const filteredHorses = horses.filter(horse => 
+                    horse.name.toLowerCase().includes(query) || 
+                    horse.description.toLowerCase().includes(query)
+                );
+                renderHorses(filteredHorses, query);
+            });
+        })
+        .catch(error => console.error('Error loading horse data:', error));
+}
+
+// Function to render horse cards
+function renderHorses(horses, query = '') {
+    const container = document.getElementById('horsesContainer');
+    container.innerHTML = ''; // Clear previous content
+    horses.forEach(horse => {
+        const horseElement = document.createElement('div');
+        horseElement.classList.add('horse');
+        
+        // Highlight search term in name and description
+        const highlightedName = highlightText(horse.name, query);
+        const highlightedDescription = highlightText(horse.description, query);
+
+        let imageCarousel = `
+            <div class="carousel">
+                <button class="prev" onclick="moveSlide(-1, '${horse.name}')">❮</button>
+                ${horse.imageUrls.map((url, index) => `<img src="${url.trim()}" id="${horse.name}-slide-${index}" style="display: ${index === 0 ? 'block' : 'none'};">`).join('')}
+                <button class="next" onclick="moveSlide(1, '${horse.name}')">❯</button>
+            </div>
+        `;
+
+        horseElement.innerHTML = `
+            ${imageCarousel}
+            <div class="horse-content">
+                <h3>${highlightedName}</h3>
+                <p>${highlightedDescription}</p>
+                <div class="action-buttons">
+                    <button class="like-button" onclick="likeHorse('${horse.name}')">❤️ ${horse.likes}</button>
+                    <button class="comment-button" onclick="toggleComments('${horse.name}')">💬 Comment</button>
+                </div>
+            </div>
+            <div class="comment-section" id="${horse.name}-comments">
+                <h4>Comments:</h4>
+                <div class="comment-list">
+                    ${horse.reviews.map(review => `<p>${review}</p>`).join('')}
+                </div>
+                <input class="comment-input" id="${horse.name}-review" type="text" placeholder="Write a comment">
+                <input class="comment-input" id="${horse.name}-reviewer-name" type="text" placeholder="Your name">
+                <button class="comment-button" onclick="submitReview('${horse.name}')">Submit</button>
+            </div>
+        `;
+        container.appendChild(horseElement);
+    });
+}
+
+// Function to control image slider
+function moveSlide(step, horseName) {
+    const slides = document.querySelectorAll(`[id^='${horseName}-slide-']`);
+    let currentIndex = Array.from(slides).findIndex(slide => slide.style.display === 'block');
+    slides[currentIndex].style.display = 'none';
+    let newIndex = (currentIndex + step + slides.length) % slides.length;
+    slides[newIndex].style.display = 'block';
+}
+
+// Function to highlight search term
+function highlightText(text, query) {
+    if (!query) return text;
+    const regex = new RegExp(`(${query})`, 'gi');
+    return text.replace(regex, '<span class="highlight">$1</span>');
+}
+
+// Function to like a horse, ensuring the user can only like once
+function likeHorse(horseName) {
+    if (localStorage.getItem(`liked-${horseName}`)) {
+        alert("You have already liked this horse.");
+        return;
+    }
+
+    fetch(`${googleSheetAPI}?horseName=${horseName}&action=like`)
+        .then(() => {
+            const likeCountElement = document.querySelector(`.like-button[onclick="likeHorse('${horseName}')"]`);
+            likeCountElement.innerHTML = `❤️ ${parseInt(likeCountElement.innerText.split(' ')[1]) + 1}`;
+            localStorage.setItem(`liked-${horseName}`, true); // Track the like in localStorage
+        })
+        .catch(error => console.error('Error liking horse:', error));
+}
+
+// Function to toggle comments section
+function toggleComments(horseName) {
+    const commentSection = document.getElementById(`${horseName}-comments`);
+    if (commentSection.style.display === 'block') {
+        commentSection.style.display = 'none';
+    } else {
+        commentSection.style.display = 'block';
+    }
+}
+
+// Function to submit a review with the user's name
+function submitReview(horseName) {
+    const reviewInput = document.getElementById(`${horseName}-review`);
+    const reviewerNameInput = document.getElementById(`${horseName}-reviewer-name`);
+    const reviewText = reviewInput.value;
+    const reviewerName = reviewerNameInput.value;
+
+    if (reviewText.trim() === '' || reviewerName.trim() === '') {
+        alert("Please enter both a review and your name.");
+        return;
+    }
+
+    fetch(`${googleSheetAPI}?horseName=${horseName}&review=${encodeURIComponent(reviewText)}&reviewerName=${encodeURIComponent(reviewerName)}&action=review`)
+        .then(() => {
+            const reviewsContainer = document.querySelector(`#${horseName}-comments .comment-list`);
+            const newReview = document.createElement('p');
+            newReview.innerText = `${reviewerName}: ${reviewText}`;
+            reviewsContainer.appendChild(newReview);
+            reviewInput.value = ''; // Clear input
+            reviewerNameInput.value = ''; // Clear input
+        })
+        .catch(error => console.error('Error submitting review:', error));
+}
+
 // Fetch FAQ data from config.json
 function loadFAQs() {
     fetch('config.json')
@@ -345,11 +481,11 @@ function renderFAQs(faqs) {
     });
 }
 
-// Load FAQs when the page loads
-document.addEventListener('DOMContentLoaded', loadFAQs);
-
-// Call the function to load horses when the page loads
-loadHorses();
+// Load horses and FAQs when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    loadHorses();
+    loadFAQs();
+});
 
 </script>
 
