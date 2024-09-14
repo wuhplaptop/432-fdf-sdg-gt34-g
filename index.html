@@ -114,24 +114,39 @@
         }
 
         /* FAQ Section */
-        .faq {
-            background-color: #292929;
+        .faq-section {
+            margin: 40px 0;
+            background-color: #1e1e1e;
             padding: 20px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
 
-        .faq h3 {
-            font-size: 1.6em;
-            color: #1da1f2;
+        .faq-section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #f5f5f5;
+        }
+
+        .faq {
+            margin-bottom: 10px;
+            border: 1px solid #333;
+            background-color: #2a2a2a;
+            padding: 10px;
+            border-radius: 5px;
             cursor: pointer;
         }
 
+        .faq h3 {
+            margin: 0;
+            font-size: 1.2em;
+            color: #f5f5f5;
+        }
+
         .faq p {
-            font-size: 1.1em;
-            color: #ccc;
             display: none;
+            margin-top: 10px;
+            color: #ccc;
+            font-size: 1em;
         }
 
         .faq.active p {
@@ -259,8 +274,10 @@
         </p>
 
         <!-- FAQ Section -->
-        <h2 id="faq">Frequently Asked Questions</h2>
-        <div id="faqContainer"></div>
+        <div class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            <div id="faqContainer"></div>
+        </div>
     </div>
 
     <!-- Compact Footer Section -->
@@ -299,7 +316,55 @@
     </footer>
 
     <script>
+        // Function to toggle the navigation menu on mobile
         function toggleMenu() {
             const navLinks = document.querySelector('.nav-links');
             navLinks.classList.toggle('active');
         }
+
+        // Function to load FAQ data from config.json
+        function loadFAQs() {
+            fetch('config.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Failed to load config.json");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    renderFAQs(data.faqs);
+                })
+                .catch(error => console.error('Error loading FAQ data:', error));
+        }
+
+        // Function to render FAQ section
+        function renderFAQs(faqs) {
+            const faqContainer = document.getElementById('faqContainer');
+            faqContainer.innerHTML = ''; // Clear previous content
+
+            faqs.forEach(faq => {
+                const faqElement = document.createElement('div');
+                faqElement.classList.add('faq');
+
+                faqElement.innerHTML = `
+                    <h3>${faq.question}</h3>
+                    <p>${faq.answer}</p>
+                `;
+
+                faqElement.addEventListener('click', function () {
+                    this.classList.toggle('active');
+                });
+
+                faqContainer.appendChild(faqElement);
+            });
+        }
+
+        // Load FAQs when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFAQs();
+        });
+    </script>
+
+</body>
+
+</html>
