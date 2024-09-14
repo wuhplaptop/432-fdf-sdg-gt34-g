@@ -5,124 +5,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horse Rescue</title>
     <style>
-        /* Global Styles */
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #fff;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #121212;
+            color: #f5f5f5;
             margin: 0;
             padding: 0;
-            color: #000;
         }
         header {
             background-color: #000;
-            color: #fff;
-            padding: 20px 0;
+            color: #f5f5f5;
+            padding: 20px;
             text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
         }
         header h1 {
-            font-size: 2.5rem;
-            margin: 0;
+            font-size: 2em;
+            margin-bottom: 0.5em;
         }
         header p {
-            font-size: 1.2rem;
-            margin-top: 10px;
+            font-size: 1.1em;
         }
         .container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            max-width: 600px;
+            margin: auto;
             padding: 20px;
         }
         .horse {
-            background-color: #f7f7f7;
-            border: 1px solid #ddd;
+            background-color: #1e1e1e;
+            border: 1px solid #333;
             border-radius: 10px;
+            margin-bottom: 20px;
             padding: 15px;
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
-        .horse:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            position: relative;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         }
         .horse img {
-            max-width: 100%;
+            max-width: 80px;
             border-radius: 10px;
+            margin-right: 15px;
+        }
+        .horse-content {
+            flex-grow: 1;
         }
         .horse h3 {
-            font-size: 1.3rem;
-            margin: 10px 0;
+            color: #fff;
+            margin: 0 0 5px 0;
+            font-size: 1.2em;
         }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 10;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 600px;
-            width: 100%;
-            text-align: center;
-        }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .modal-header h3 {
+        .horse p {
+            color: #aaa;
+            font-size: 0.9em;
             margin: 0;
         }
-        .close {
-            font-size: 1.5rem;
-            cursor: pointer;
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
         }
-        .like-button {
+        .like-button, .comment-button {
             background-color: transparent;
             border: none;
+            color: #f5f5f5;
+            font-size: 1em;
             cursor: pointer;
-            margin-bottom: 20px;
+            padding: 5px;
         }
-        .like-button img {
-            width: 40px;
-            height: 40px;
+        .like-button:hover, .comment-button:hover {
+            color: #1da1f2;
         }
-        .review-input {
+        .arrow {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            cursor: pointer;
+            font-size: 1.5em;
+            color: #f5f5f5;
+        }
+        .comment-section {
+            display: none;
+            margin-top: 10px;
+        }
+        .comment-section h4 {
+            color: #f5f5f5;
+            margin-bottom: 5px;
+        }
+        .comment-input {
             width: 100%;
-            padding: 10px;
+            padding: 8px;
             margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            background-color: #2c2c2c;
+            border: 1px solid #555;
+            color: #f5f5f5;
+            border-radius: 8px;
         }
-        .review-button {
-            background-color: #000;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .review-button:hover {
-            background-color: #333;
+        .comment-list p {
+            color: #ccc;
+            font-size: 0.9em;
+            margin-bottom: 5px;
         }
 
-        /* Responsive Media Query */
-        @media screen and (max-width: 600px) {
-            .modal-content {
-                max-width: 95%;
+        @media (max-width: 768px) {
+            .horse {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .horse img {
+                max-width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
             }
         }
     </style>
@@ -138,36 +131,9 @@
     <!-- Horse cards will be dynamically added here -->
 </div>
 
-<!-- Modal for displaying horse details -->
-<div id="horseModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 id="modalHorseName"></h3>
-            <span class="close" onclick="closeModal()">&times;</span>
-        </div>
-        <img id="modalHorseImage" src="" alt="Horse Image" style="width: 100%; max-height: 300px; border-radius: 10px;">
-        <p id="modalHorseDescription"></p>
-        <p>Likes: <span id="modalHorseLikes"></span></p>
-        <button class="like-button" id="modalLikeButton" onclick="likeHorseModal()">
-            <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="Like">
-        </button>
-        <div>
-            <input class="review-input" id="modalReviewText" type="text" placeholder="Write a review">
-            <input class="review-input" id="modalReviewerName" type="text" placeholder="Your name">
-            <button class="review-button" onclick="submitReviewModal()">Submit Review</button>
-        </div>
-        <div id="modalHorseReviews">
-            <h4>Reviews:</h4>
-        </div>
-    </div>
-</div>
-
 <script>
 // Updated Google Apps Script API endpoint
 const googleSheetAPI = 'https://script.google.com/macros/s/AKfycbx2u1yhxoBisizmKixluBu8OMku-Pn-FZF90VMDo3qVWIHqTZ8LHfizsB-kIDqITrzw/exec';
-
-// Variables for the modal horse data
-let selectedHorse = null;
 
 // Function to load the horse data from Google Sheets
 function loadHorses() {
@@ -179,8 +145,25 @@ function loadHorses() {
                 const horseElement = document.createElement('div');
                 horseElement.classList.add('horse');
                 horseElement.innerHTML = `
-                    <img src="${horse.imageUrl}" alt="${horse.name}" onclick="openModal('${horse.name}', '${horse.imageUrl}', '${horse.description}', ${horse.likes}, ${JSON.stringify(horse.reviews)})">
-                    <h3>${horse.name}</h3>
+                    <img src="${horse.imageUrl}" alt="${horse.name}">
+                    <div class="horse-content">
+                        <h3>${horse.name}</h3>
+                        <p>${horse.description}</p>
+                        <div class="action-buttons">
+                            <button class="like-button" onclick="likeHorse('${horse.name}')">❤️ ${horse.likes}</button>
+                            <button class="comment-button" onclick="toggleComments('${horse.name}')">💬 Comment</button>
+                        </div>
+                    </div>
+                    <div class="arrow" onclick="toggleComments('${horse.name}')">⬇️</div>
+                    <div class="comment-section" id="${horse.name}-comments">
+                        <h4>Comments:</h4>
+                        <div class="comment-list">
+                            ${horse.reviews.map(review => `<p>${review}</p>`).join('')}
+                        </div>
+                        <input class="comment-input" id="${horse.name}-review" type="text" placeholder="Write a comment">
+                        <input class="comment-input" id="${horse.name}-reviewer-name" type="text" placeholder="Your name">
+                        <button class="comment-button" onclick="submitReview('${horse.name}')">Submit</button>
+                    </div>
                 `;
                 container.appendChild(horseElement);
             });
@@ -188,74 +171,58 @@ function loadHorses() {
         .catch(error => console.error('Error loading horse data:', error));
 }
 
-// Function to open the modal with horse details
-function openModal(name, imageUrl, description, likes, reviews) {
-    selectedHorse = name; // Store selected horse's name
-
-    document.getElementById('modalHorseName').innerText = name;
-    document.getElementById('modalHorseImage').src = imageUrl;
-    document.getElementById('modalHorseDescription').innerText = description;
-    document.getElementById('modalHorseLikes').innerText = likes;
-
-    const reviewsContainer = document.getElementById('modalHorseReviews');
-    reviewsContainer.innerHTML = `<h4>Reviews:</h4>`; // Clear previous reviews
-    reviews.forEach(review => {
-        const reviewElement = document.createElement('p');
-        reviewElement.innerText = review;
-        reviewsContainer.appendChild(reviewElement);
-    });
-
-    document.getElementById('horseModal').style.display = 'flex'; // Show modal
-}
-
-// Function to close the modal
-function closeModal() {
-    document.getElementById('horseModal').style.display = 'none'; // Hide modal
-}
-
-// Function to like a horse in the modal
-function likeHorseModal() {
-    if (localStorage.getItem(`liked-${selectedHorse}`)) {
+// Function to like a horse, ensuring the user can only like once
+function likeHorse(horseName) {
+    if (localStorage.getItem(`liked-${horseName}`)) {
         alert("You have already liked this horse.");
         return;
     }
 
-    fetch(`${googleSheetAPI}?horseName=${selectedHorse}&action=like`)
+    fetch(`${googleSheetAPI}?horseName=${horseName}&action=like`)
         .then(() => {
-            const likeCountElement = document.getElementById('modalHorseLikes');
-            likeCountElement.innerText = parseInt(likeCountElement.innerText) + 1;
-            localStorage.setItem(`liked-${selectedHorse}`, true); // Track the like in localStorage
+            const likeCountElement = document.querySelector(`.like-button[onclick="likeHorse('${horseName}')"]`);
+            likeCountElement.innerHTML = `❤️ ${parseInt(likeCountElement.innerText.split(' ')[1]) + 1}`;
+            localStorage.setItem(`liked-${horseName}`, true); // Track the like in localStorage
         })
         .catch(error => console.error('Error liking horse:', error));
 }
 
-// Function to submit a review in the modal
-function submitReviewModal() {
-    const reviewText = document.getElementById('modalReviewText').value;
-    const reviewerName = document.getElementById('modalReviewerName').value;
+// Function to toggle comments section
+function toggleComments(horseName) {
+    const commentSection = document.getElementById(`${horseName}-comments`);
+    if (commentSection.style.display === 'block') {
+        commentSection.style.display = 'none';
+    } else {
+        commentSection.style.display = 'block';
+    }
+}
+
+// Function to submit a review with the user's name
+function submitReview(horseName) {
+    const reviewInput = document.getElementById(`${horseName}-review`);
+    const reviewerNameInput = document.getElementById(`${horseName}-reviewer-name`);
+    const reviewText = reviewInput.value;
+    const reviewerName = reviewerNameInput.value;
 
     if (reviewText.trim() === '' || reviewerName.trim() === '') {
         alert("Please enter both a review and your name.");
         return;
     }
 
-    fetch(`${googleSheetAPI}?horseName=${selectedHorse}&review=${encodeURIComponent(reviewText)}&reviewerName=${encodeURIComponent(reviewerName)}&action=review`)
+    fetch(`${googleSheetAPI}?horseName=${horseName}&review=${encodeURIComponent(reviewText)}&reviewerName=${encodeURIComponent(reviewerName)}&action=review`)
         .then(() => {
-            const reviewsContainer = document.getElementById('modalHorseReviews');
+            const reviewsContainer = document.querySelector(`#${horseName}-comments .comment-list`);
             const newReview = document.createElement('p');
             newReview.innerText = `${reviewerName}: ${reviewText}`;
             reviewsContainer.appendChild(newReview);
-
-            // Clear input fields after submission
-            document.getElementById('modalReviewText').value = '';
-            document.getElementById('modalReviewerName').value = '';
+            reviewInput.value = ''; // Clear input
+            reviewerNameInput.value = ''; // Clear input
         })
         .catch(error => console.error('Error submitting review:', error));
 }
 
-// Load horses on page load
+// Call the function to load horses when the page loads
 loadHorses();
-
 </script>
 
 </body>
