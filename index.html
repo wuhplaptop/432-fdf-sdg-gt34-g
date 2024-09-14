@@ -250,6 +250,56 @@ function highlightText(text, query) {
     return text.replace(regex, '<span class="highlight">$1</span>');
 }
 
+// Function to like a horse, ensuring the user can only like once
+function likeHorse(horseName) {
+    if (localStorage.getItem(`liked-${horseName}`)) {
+        alert("You have already liked this horse.");
+        return;
+    }
+
+    fetch(`${googleSheetAPI}?horseName=${horseName}&action=like`)
+        .then(() => {
+            const likeCountElement = document.querySelector(`.like-button[onclick="likeHorse('${horseName}')"]`);
+            likeCountElement.innerHTML = `❤️ ${parseInt(likeCountElement.innerText.split(' ')[1]) + 1}`;
+            localStorage.setItem(`liked-${horseName}`, true); // Track the like in localStorage
+        })
+        .catch(error => console.error('Error liking horse:', error));
+}
+
+// Function to toggle comments section
+function toggleComments(horseName) {
+    const commentSection = document.getElementById(`${horseName}-comments`);
+    if (commentSection.style.display === 'block') {
+        commentSection.style.display = 'none';
+    } else {
+        commentSection.style.display = 'block';
+    }
+}
+
+// Function to submit a review with the user's name
+function submitReview(horseName) {
+    const reviewInput = document.getElementById(`${horseName}-review`);
+    const reviewerNameInput = document.getElementById(`${horseName}-reviewer-name`);
+    const reviewText = reviewInput.value;
+    const reviewerName = reviewerNameInput.value;
+
+    if (reviewText.trim() === '' || reviewerName.trim() === '') {
+        alert("Please enter both a review and your name.");
+        return;
+    }
+
+    fetch(`${googleSheetAPI}?horseName=${horseName}&review=${encodeURIComponent(reviewText)}&reviewerName=${encodeURIComponent(reviewerName)}&action=review`)
+        .then(() => {
+            const reviewsContainer = document.querySelector(`#${horseName}-comments .comment-list`);
+            const newReview = document.createElement('p');
+            newReview.innerText = `${reviewerName}: ${reviewText}`;
+            reviewsContainer.appendChild(newReview);
+            reviewInput.value = ''; // Clear input
+            reviewerNameInput.value = ''; // Clear input
+        })
+        .catch(error => console.error('Error submitting review:', error));
+}
+
 // Call the function to load horses when the page loads
 loadHorses();
 </script>
