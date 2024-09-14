@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horse Rescue</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        .horse {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+        .horse img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        .horse h3 {
+            color: #343a40;
+        }
+        .horse p {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Horse Rescue</h1>
+    <p>Meet our beautiful horses available for adoption!</p>
+</header>
+
+<div class="container" id="horsesContainer">
+    <!-- Horse cards will be dynamically added here -->
+</div>
+
+<script>
+// Define the location of the images and config file
+const imageFolder = './horses/';
+const configFilePath = './config.json';
+
+// Function to load the horse data from the config file
+function loadHorses() {
+    fetch(configFilePath)
+        .then(response => response.json())
+        .then(horses => {
+            const container = document.getElementById('horsesContainer');
+            horses.forEach(horse => {
+                const horseElement = document.createElement('div');
+                horseElement.classList.add('horse');
+                horseElement.innerHTML = `
+                    <img src="${imageFolder}${horse.image}" alt="${horse.name}">
+                    <h3>${horse.name}</h3>
+                    <p>${horse.description}</p>
+                `;
+                container.appendChild(horseElement);
+            });
+        })
+        .catch(error => console.error('Error loading horse data:', error));
+}
+
+// Call the function to load horses when the page loads
+loadHorses();
+</script>
+
+</body>
+</html>
