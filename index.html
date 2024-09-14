@@ -133,21 +133,32 @@
 </div>
 
 <script>
-// Updated Google Apps Script API endpoint
-const googleSheetAPI = 'https://script.google.com/macros/s/AKfycbx2u1yhxoBisizmKixluBu8OMku-Pn-FZF90VMDo3qVWIHqTZ8LHfizsB-kIDqITrzw/exec';
+// Updated Google Apps Script API endpoint to use your new Deployment URL
+const googleSheetAPI = 'https://script.google.com/macros/s/AKfycbwHy0jQBBWxjryKNT6y7HTLRw-qMc4B0K4zGgsPnPsNMdHrd54VqOFse-FFmiSQABxo/exec';
 
 // Function to load the horse data from Google Sheets
 function loadHorses() {
     fetch(googleSheetAPI)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
         .then(horses => {
+            console.log('Fetched horses:', horses);  // Debugging: Check if the data is correctly fetched
             const container = document.getElementById('horsesContainer');
             horses.forEach(horse => {
+                if (!horse.imageUrls || !horse.name || !horse.description) {
+                    console.error('Missing data for horse:', horse);
+                    return;
+                }
                 const horseElement = document.createElement('div');
                 horseElement.classList.add('horse');
                 
                 let imageCarousel = '<div class="carousel">';
                 horse.imageUrls.forEach(url => {
+                    if (!url) return;  // Skip empty URLs
                     imageCarousel += `<a href="${url.trim()}" target="_blank"><img src="${url.trim()}" alt="${horse.name}"></a>`;
                 });
                 imageCarousel += '</div>';
@@ -176,7 +187,9 @@ function loadHorses() {
                 container.appendChild(horseElement);
             });
         })
-        .catch(error => console.error('Error loading horse data:', error));
+        .catch(error => {
+            console.error('Error loading horse data:', error);  // Error logging
+        });
 }
 
 // Function to like a horse, ensuring the user can only like once
