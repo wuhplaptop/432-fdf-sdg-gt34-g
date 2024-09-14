@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Bella",
+        "description": "Bella is a friendly and playful mare looking for a loving home.",
+        "image": "bella.png"
+    },
+    {
+        "name": "Storm",
+        "description": "Storm is a powerful and majestic horse who loves to run.",
+        "image": "storm.png"
+    }
+]
