@@ -134,7 +134,7 @@
 
 <script>
 // Updated Google Apps Script API endpoint to use your new Deployment URL
-const googleSheetAPI = 'https://script.google.com/macros/s/AKfycbwHy0jQBBWxjryKNT6y7HTLRw-qMc4B0K4zGgsPnPsNMdHrd54VqOFse-FFmiSQABxo/exec';
+const googleSheetAPI = 'https://script.google.com/macros/s/AKfycbzk4OGdvDd7OkWxeUvGcBGnu30_sB-Ek4s6qDRpHt44NfReLExPZjBwbKHrULljFyS2/exec';
 
 // Function to load the horse data from Google Sheets
 function loadHorses() {
@@ -146,19 +146,14 @@ function loadHorses() {
             return response.json();
         })
         .then(horses => {
-            console.log('Fetched horses:', horses);  // Debugging: Check if the data is correctly fetched
             const container = document.getElementById('horsesContainer');
             horses.forEach(horse => {
-                if (!horse.imageUrls || !horse.name || !horse.description) {
-                    console.error('Missing data for horse:', horse);
-                    return;
-                }
                 const horseElement = document.createElement('div');
                 horseElement.classList.add('horse');
                 
                 let imageCarousel = '<div class="carousel">';
                 horse.imageUrls.forEach(url => {
-                    if (!url) return;  // Skip empty URLs
+                    if (!url) return;
                     imageCarousel += `<a href="${url.trim()}" target="_blank"><img src="${url.trim()}" alt="${horse.name}"></a>`;
                 });
                 imageCarousel += '</div>';
@@ -187,9 +182,7 @@ function loadHorses() {
                 container.appendChild(horseElement);
             });
         })
-        .catch(error => {
-            console.error('Error loading horse data:', error);  // Error logging
-        });
+        .catch(error => console.error('Error loading horse data:', error));
 }
 
 // Function to like a horse, ensuring the user can only like once
