@@ -10,7 +10,7 @@
     <meta property="og:url" content="https://coffinacres-spiritofm46-rescue.org">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="description" content="Horse Rescue - Dedicated to rescuing and rehabilitating horses.">
-    <title>Spirit of M46 Rescue - Home</title>
+    <title>Spirit of M46 Rescue - View Horses</title>
     
     <!-- Favicon settings -->
     <link rel="icon" href="https://github.com/wuhplaptop/432-fdf-sdg-gt34-g/blob/main/horses/horselogo.jpg?raw=true" type="image/x-icon">
@@ -18,7 +18,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="https://github.com/wuhplaptop/432-fdf-sdg-gt34-g/blob/main/horses/horselogo.jpg?raw=true">
     <link rel="icon" type="image/png" sizes="16x16" href="https://github.com/wuhplaptop/432-fdf-sdg-gt34-g/blob/main/horses/horselogo.jpg?raw=true">
 
-   <style>
+    <style>
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             background-color: #ffffff; /* White background */
@@ -126,6 +126,26 @@
             font-size: 1em;
         }
 
+        .filter-bar {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-bar select {
+            width: 60%;
+            padding: 10px;
+            border: 1px solid #ff0000; /* Red border */
+            border-radius: 10px;
+            font-size: 1em;
+            color: #ff0000; /* Red text for the filter */
+            background-color: #ffffff;
+        }
+
+        .filter-bar select:focus {
+            outline: none;
+            border-color: #ff0000;
+        }
+
         .horse {
             background-color: #ffffff; /* White horse card background */
             border: 1px solid #ff0000; /* Red border */
@@ -229,46 +249,6 @@
             margin-bottom: 5px;
         }
 
-        /* FAQ Section */
-        .faq-section {
-            margin: 40px 0;
-            background-color: #f7f7f7;
-            padding: 20px;
-            border-radius: 8px;
-        }
-
-        .faq-section h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #000000; /* Black text */
-        }
-
-        .faq {
-            margin-bottom: 10px;
-            border: 1px solid #ff0000; /* Red border for FAQ */
-            background-color: #ffffff;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .faq h3 {
-            margin: 0;
-            font-size: 1.2em;
-            color: #000000; /* Black FAQ heading */
-        }
-
-        .faq p {
-            display: none;
-            margin-top: 10px;
-            color: #555555;
-            font-size: 1em;
-        }
-
-        .faq.active p {
-            display: block;
-        }
-
         /* Footer Styles */
         footer {
             background-color: #ff0000; /* Red footer */
@@ -356,18 +336,21 @@
         }
     </style>
 </head>
+
 <body>
 
 <!-- Navigation Menu -->
 <nav>
     <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div>
     <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="horses.html">View Horses</a>
-            <a href="#services">Services</a>
-            <a href="#contact">Contact Us</a>
-        </div>
+        <a href="index.html">Home</a>
+        <a href="horses.html">View Horses</a>
+        <a href="services.html">Services</a> <!-- Added a Services page link for consistency -->
+        <a href="links.html">Links</a>
+        <a href="#contact">Contact Us</a>
+    </div>
 </nav>
+
 
 <header>
     <h1>Spirit of M46 Rescue</h1>
@@ -380,29 +363,19 @@
         <input type="text" id="searchInput" placeholder="Search for horses by name or description...">
     </div>
 
+    <!-- Filter Section -->
+    <div class="filter-bar">
+        <select id="filterSelect">
+            <option value="">Select Filter</option>
+            <!-- Filters will be populated dynamically -->
+        </select>
+    </div>
+
     <!-- Horse cards will be dynamically added here -->
     <div id="horsesContainer"></div>
 </div>
 
-        <h2 id="services">Our Services</h2>
-        <p>We offer a variety of services to support horse welfare and rehabilitation:</p>
-        <ul>
-            <li><strong>Equine Rescue:</strong> Our primary focus is rescuing horses from dangerous, abusive, or neglectful situations. We work closely with local authorities and other rescue organizations to ensure these horses are brought to safety.</li>
-            <li><strong>Rehabilitation:</strong> Every horse we rescue receives a customized rehabilitation plan, which includes veterinary care, dietary improvements, physical therapy, and socialization. Whether a horse requires medical treatment for injuries or emotional support from past trauma, we are here to guide them through the healing process.</li>
-            <li><strong>Adoption:</strong> Once a horse is rehabilitated, we work tirelessly to find them a loving home. Our adoption process is thorough, ensuring that the horses are matched with the right families or individuals who can meet their ongoing needs.</li>
-            <li><strong>Sanctuary:</strong> For horses that cannot be adopted due to chronic health conditions or other limitations, we offer a permanent sanctuary. These horses receive lifelong care at our facility, enjoying open pastures and companionship from other sanctuary horses.</li>
-            <li><strong>Pasture Board:</strong> We provide open, spacious pastures where horses can roam freely, graze, and socialize. Our pasture boarding services are ideal for owners looking to give their horses a natural and enriching environment.</li>
-            <li><strong>Stall Board:</strong> Our clean, comfortable stables provide individual stalls with high-quality bedding, ensuring the horses are well-rested and safe. Stall boarding includes daily exercise and pasture access.</li>
-            <li><strong>On-site Trailer Repair:</strong> Keeping horses safe during transport is essential, which is why we offer on-site trailer repair services. From regular maintenance to emergency fixes, our professional repair services ensure safe travels for all horses.</li>
-        </ul>
-
-<!-- FAQ Section -->
-<div class="faq-section">
-    <h2>Frequently Asked Questions</h2>
-    <div id="faqContainer"></div>
-</div>
-
-<!-- Compact Footer Section -->
+<!-- Footer Section -->
 <footer>
     <div class="footer-content">
         <!-- Donation Section -->
@@ -444,10 +417,10 @@ function toggleMenu() {
     navLinks.classList.toggle('active');
 }
 
-// Updated Google Apps Script API endpoint to use your new Deployment URL
+// Google Apps Script API endpoint
 const googleSheetAPI = 'https://script.google.com/macros/s/AKfycbzk4OGdvDd7OkWxeUvGcBGnu30_sB-Ek4s6qDRpHt44NfReLExPZjBwbKHrULljFyS2/exec';
 
-// Function to load the horse data from Google Sheets
+// Function to load horse data from Google Sheets
 function loadHorses() {
     fetch(googleSheetAPI)
         .then(response => {
@@ -458,16 +431,50 @@ function loadHorses() {
         })
         .then(horses => {
             renderHorses(horses);
-            document.getElementById('searchInput').addEventListener('input', function() {
+            document.getElementById('searchInput').addEventListener('input', function () {
                 const query = this.value.toLowerCase();
-                const filteredHorses = horses.filter(horse => 
-                    horse.name.toLowerCase().includes(query) || 
+                const filteredHorses = horses.filter(horse =>
+                    horse.name.toLowerCase().includes(query) ||
                     horse.description.toLowerCase().includes(query)
                 );
                 renderHorses(filteredHorses, query);
             });
+            document.getElementById('filterSelect').addEventListener('change', function () {
+                const selectedFilter = this.value;
+                const filteredHorses = selectedFilter
+                    ? horses.filter(horse => horse.description.toLowerCase().includes(selectedFilter))
+                    : horses;
+                renderHorses(filteredHorses);
+            });
         })
         .catch(error => console.error('Error loading horse data:', error));
+}
+
+// Function to load filters from config.json
+function loadFilters() {
+    fetch('config.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to load config.json");
+            }
+            return response.json();
+        })
+        .then(data => {
+            const filters = data.filters;
+            renderFilters(filters);
+        })
+        .catch(error => console.error('Error loading filters:', error));
+}
+
+// Function to render filters into the dropdown
+function renderFilters(filters) {
+    const filterSelect = document.getElementById('filterSelect');
+    filters.forEach(filter => {
+        const option = document.createElement('option');
+        option.value = filter.toLowerCase();
+        option.textContent = filter.charAt(0).toUpperCase() + filter.slice(1);
+        filterSelect.appendChild(option);
+    });
 }
 
 // Function to render horse cards
@@ -530,7 +537,7 @@ function highlightText(text, query) {
     return text.replace(regex, '<span class="highlight">$1</span>');
 }
 
-// Function to like a horse, ensuring the user can only like once
+// Function to like a horse
 function likeHorse(horseName) {
     if (localStorage.getItem(`liked-${horseName}`)) {
         alert("You have already liked this horse.");
@@ -541,7 +548,7 @@ function likeHorse(horseName) {
         .then(() => {
             const likeCountElement = document.querySelector(`.like-button[onclick="likeHorse('${horseName}')"]`);
             likeCountElement.innerHTML = `❤️ ${parseInt(likeCountElement.innerText.split(' ')[1]) + 1}`;
-            localStorage.setItem(`liked-${horseName}`, true); // Track the like in localStorage
+            localStorage.setItem(`liked-${horseName}`, true);
         })
         .catch(error => console.error('Error liking horse:', error));
 }
@@ -580,49 +587,11 @@ function submitReview(horseName) {
         .catch(error => console.error('Error submitting review:', error));
 }
 
-// Fetch FAQ data from config.json
-function loadFAQs() {
-    fetch('config.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Failed to load config.json");
-            }
-            return response.json();
-        })
-        .then(data => {
-            renderFAQs(data.faqs);
-        })
-        .catch(error => console.error('Error loading FAQ data:', error));
-}
-
-// Render FAQ section
-function renderFAQs(faqs) {
-    const faqContainer = document.getElementById('faqContainer');
-    faqContainer.innerHTML = ''; // Clear previous content
-
-    faqs.forEach(faq => {
-        const faqElement = document.createElement('div');
-        faqElement.classList.add('faq');
-
-        faqElement.innerHTML = `
-            <h3>${faq.question}</h3>
-            <p>${faq.answer}</p>
-        `;
-
-        faqElement.addEventListener('click', function () {
-            this.classList.toggle('active');
-        });
-
-        faqContainer.appendChild(faqElement);
-    });
-}
-
-// Load horses and FAQs when the page loads
+// Load horses, filters, and FAQs when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     loadHorses();
-    loadFAQs();
+    loadFilters();
 });
-
 </script>
 
 </body>
