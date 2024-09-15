@@ -4,12 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Horse Rescue - Home">
+    <meta property="og:description" content="Dedicated to the rescue and rehabilitation of horses.">
+    <meta property="og:image" content="https://github.com/wuhplaptop/432-fdf-sdg-gt34-g/blob/main/horses/horselogo.jpg?raw=true">
+    <meta property="og:url" content="https://yourwebsite.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="description" content="Horse Rescue - Dedicated to rescuing and rehabilitating horses.">
     <title>Horse Rescue - Home</title>
+    <link rel="icon" href="https://github.com/wuhplaptop/432-fdf-sdg-gt34-g/blob/main/horses/horselogo.jpg?raw=true" type="image/x-icon">
     <style>
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #121212;
-            color: #f5f5f5;
+            background-color: #ffffff; /* White background for the page */
+            color: #000000; /* Black text */
             margin: 0;
             padding: 0;
             display: flex;
@@ -18,11 +25,11 @@
         }
 
         header {
-            background-color: #000;
-            color: #f5f5f5;
+            background-color: #ffffff; /* White background for the header */
+            color: #000000; /* Black text for the header */
             padding: 20px 40px;
             text-align: center;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         header h1 {
@@ -35,15 +42,16 @@
         }
 
         nav {
-            background-color: #1a1a1a;
+            background-color: #ffffff; /* White background for the nav */
             padding: 15px;
             display: flex;
             justify-content: center;
             align-items: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         nav a {
-            color: #f5f5f5;
+            color: #000000; /* Black text for the nav links */
             text-decoration: none;
             margin: 0 25px;
             font-size: 1.2em;
@@ -53,7 +61,8 @@
         }
 
         nav a:hover {
-            background-color: #333;
+            background-color: #ff0000; /* Red hover effect for links */
+            color: #ffffff; /* White text on hover */
         }
 
         .menu-toggle {
@@ -73,7 +82,7 @@
             .menu-toggle {
                 display: block;
                 font-size: 2em;
-                color: #f5f5f5;
+                color: #ff0000; /* Red color for the hamburger icon on mobile */
                 position: absolute;
                 top: 15px;
                 right: 15px;
@@ -96,27 +105,27 @@
             max-width: 900px;
             margin: 40px auto;
             padding: 20px;
-            background-color: #1c1c1c;
+            background-color: #ffffff; /* White container background */
             border-radius: 8px;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         h2 {
             font-size: 2em;
             margin-bottom: 20px;
-            color: #f5f5f5;
+            color: #000000; /* Black text for headings */
         }
 
         p {
             font-size: 1.2em;
             line-height: 1.6em;
-            color: #ccc;
+            color: #333333; /* Slightly lighter black for body text */
         }
 
         /* FAQ Section */
         .faq-section {
             margin: 40px 0;
-            background-color: #1e1e1e;
+            background-color: #f7f7f7; /* Light background for FAQ section */
             padding: 20px;
             border-radius: 8px;
         }
@@ -124,13 +133,13 @@
         .faq-section h2 {
             text-align: center;
             margin-bottom: 20px;
-            color: #f5f5f5;
+            color: #000000; /* Black text for FAQ header */
         }
 
         .faq {
             margin-bottom: 10px;
-            border: 1px solid #333;
-            background-color: #2a2a2a;
+            border: 1px solid #333333;
+            background-color: #f7f7f7;
             padding: 10px;
             border-radius: 5px;
             cursor: pointer;
@@ -139,13 +148,13 @@
         .faq h3 {
             margin: 0;
             font-size: 1.2em;
-            color: #f5f5f5;
+            color: #000000;
         }
 
         .faq p {
             display: none;
             margin-top: 10px;
-            color: #ccc;
+            color: #333333;
             font-size: 1em;
         }
 
@@ -155,9 +164,9 @@
 
         /* Footer Styles */
         footer {
-            background-color: #1a1a1a;
+            background-color: #ffffff; /* White background for the footer */
             padding: 20px 0;
-            color: #ccc;
+            color: #000000; /* Black text */
             text-align: center;
         }
 
@@ -177,20 +186,20 @@
         }
 
         footer .footer-section h3 {
-            color: #f5f5f5;
+            color: #000000;
             margin-bottom: 10px;
             font-size: 1.2em;
         }
 
         footer .footer-section p,
         footer .footer-section a {
-            color: #ccc;
+            color: #000000;
             font-size: 0.9em;
             text-decoration: none;
         }
 
         footer .footer-section a:hover {
-            color: #1da1f2;
+            color: #ff0000; /* Red hover effect for links */
         }
 
         footer .social-links {
@@ -200,7 +209,7 @@
 
         footer .social-links a {
             font-size: 1.3em;
-            color: #f5f5f5;
+            color: #000000;
         }
 
         footer .donation-section img {
@@ -251,11 +260,12 @@
         <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="horses.html">View Horses</a>
-            <a href="#contact" style="color: #1da1f2;">Contact Us</a>
+            <a href="#contact">Contact Us</a>
         </div>
     </nav>
 
     <header>
+        <img src="https://github.com/wuhplaptop/432-fdf-sdg-gt34-g/blob/main/horses/horselogo.jpg?raw=true" alt="Horse Rescue Banner" style="max-width: 100%; height: auto;">
         <h1>Welcome to Horse Rescue</h1>
         <p>Dedicated to the rescue and rehabilitation of horses.</p>
     </header>
